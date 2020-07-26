@@ -1,0 +1,18 @@
+version: "3.3"
+services: 
+    mysql-server:
+      build: ./database
+      # healthcheck:
+      #       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      #       timeout: 20s
+      #       retries: 10
+    node-app: 
+      restart: always
+      build: 
+        context: ./
+        dockerfile: Dockerfile
+       
+      depends_on:
+        - mysql-server
+      ports: 
+        - "4000:4000"

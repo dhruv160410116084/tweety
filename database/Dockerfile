@@ -1,0 +1,8 @@
+FROM mysql:8
+
+ENV MYSQL_ROOT_PASSWORD 123456789  
+ENV MYSQL_DATABASE tweety  
+ENV MYSQL_USER root  
+ENV MYSQL_PASSWORD 123456789
+
+ADD tweety.sql /docker-entrypoint-initdb.d
