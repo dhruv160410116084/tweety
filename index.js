@@ -10,16 +10,17 @@ const auth = async (resolve,root,args,context,info)=>{
     if(info.fieldName === 'registerUser' || info.fieldName === "userLogin"){
         
         res = await resolve(root,args,context,info)
-        if(res === null){
-            res={}
+        console.log(res);
+        if(res.length === 0 ){
+            res[0]={}
              res.msg = "authentication error !, please check your credentials." 
 
         }
         else{
 
-            res.token = jwt.sign({data:args},"dhruvTweety")
-            if(res.msg === null)
-            res.msg="authenticated!"
+            res[0].token = jwt.sign({data:args},"dhruvTweety")
+            if(res[0].msg === null)
+            res[0].msg="authenticated!"
         }        
     }
     else{
@@ -35,13 +36,8 @@ const auth = async (resolve,root,args,context,info)=>{
                         // res = res[0]
                     }
                 } catch (error) {
-                    if(!Array.isArray(res))
-                    res={msg:"Please provide valid auth token!"}
-                    else
                     res=[{msg:"Please provide auth token!"}]
-                    
                 }
-                
             }else{
                 res=[{msg:"Please provide auth token!"}]
             }

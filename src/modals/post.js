@@ -35,8 +35,8 @@ const Post = connection.define(
 
 let create = (obj) => {
   return Post.create(obj).then((post) => {
-    if (post._options.isNewRecord) return { msg: "post created" };
-    else return { msg: "some error occured" };
+    if (post._options.isNewRecord) return [{ msg: "post created" }];
+    else return [{ msg: "some error occured" }];
   });
 };
 

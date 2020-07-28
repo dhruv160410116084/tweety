@@ -26,10 +26,10 @@ const Follow = connection.define(
 let follow = (obj) => {
   return Follow.create(obj).then((data) => {
     if (data._options.isNewRecord)
-      return {
+      return [{
         msg: ` user id: ${obj.user_id} followed user_id : ${obj.follower_id} `,
-      };
-    else return { msg: "some error occured!" };
+      }];
+    else return [{ msg: "some error occured!" }];
   });
 };
 

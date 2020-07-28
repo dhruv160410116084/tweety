@@ -32,14 +32,14 @@ const User = connection.define(
 let register = (obj) => {
   return User.create(obj).then((user) => {
     if (user._options.isNewRecord){
-      return {
+      return [{
         id:user.id,
         name: user.name,
         email:user.email,
         msg:"account created"
-      }
+      }]
     } 
-    else return { msg: "some error occured during creating your account" };
+    else return [{ msg: "some error occured during creating your account" }];
   });
 };
 
@@ -51,7 +51,7 @@ let login = (obj) => {
       password: obj.password,
     },
   }).then((user) => {
-    return user;
+    return [user];
   });
 };
 
