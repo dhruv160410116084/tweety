@@ -40,6 +40,9 @@ let register = (obj) => {
       }]
     } 
     else return [{ msg: "some error occured during creating your account" }];
+  }).catch(err => {
+    console.log(err);
+    return []
   });
 };
 
@@ -52,6 +55,9 @@ let login = (obj) => {
     },
   }).then((user) => {
     return [user];
+  }).catch(err =>{
+    console.log(err);
+    return []
   });
 };
 

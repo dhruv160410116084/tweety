@@ -20,21 +20,21 @@ type Auth {
   id: String
   name: String
   token: String
-  msg: String
 }
 
 union PostResult = Post | Msg
 union ListUserResult = User | Msg
+union CredentialResult = Auth | Msg
 
 
 type Query {
-  userLogin(email: String!, password: String!): [Auth]
+  userLogin(email: String!, password: String!): [CredentialResult]
   getAllUsers(token: String!): [ListUserResult]
   fetchPost(token: String!, user_id: Int, me: Boolean): [PostResult]
 }
 
 type Mutation {
-  registerUser(email: String!, name: String!, password: String!): [Auth]
+  registerUser(email: String!, name: String!, password: String!): [CredentialResult]
   createPost(token: String!, user_id: Int!, content: String!): [Msg]
   followUser(token: String!, user_id: Int!, follower_id: Int!): [Msg]
 }

@@ -11,9 +11,13 @@ const auth = async (resolve,root,args,context,info)=>{
         
         res = await resolve(root,args,context,info)
         console.log(res);
-        if(res.length === 0 ){
+        if(res[0] === null){
+            res=[{msg:"User not found!"}]
+            console.log(res)
+        }
+        else if(res.length === 0 ){
             res[0]={}
-             res.msg = "authentication error !, please check your credentials." 
+             res[0].msg = "authentication error !, please check your credentials." 
 
         }
         else{
@@ -36,7 +40,7 @@ const auth = async (resolve,root,args,context,info)=>{
                         // res = res[0]
                     }
                 } catch (error) {
-                    res=[{msg:"Please provide auth token!"}]
+                    res=[{msg:error.toString()}]
                 }
             }else{
                 res=[{msg:"Please provide auth token!"}]
@@ -66,6 +70,15 @@ const server = new GraphQLServer({
                     if(obj.msg)
                         return 'Msg'
                 }
+            },
+            CredentialResult:{
+                __resolveType: obj =>{
+                   
+                    if(obj.id)
+                        return 'Auth'
+                    if(obj.msg)
+                        return 'Msg'
+                }
             }
     },
     middlewares:[{
@@ -79,3 +92,28 @@ const server = new GraphQLServer({
 server.start({endpoint:"/app"},() => {
     console.log('The server is up!')
 })
+
+let bookTicket = (obj)=>{
+    let res =async Flight.find(obj.flight_id)
+
+    if(!res){
+        let result =async Flight.Book(obj)
+
+        if(result === true)
+            return {msg : "book flight successfully"}
+        else
+            return {msg : " some error occurred"}
+    }
+
+}
+
+
+let book = (obj)=>{
+    if(obj in book.list)
+        return {msg : "already booked"}
+    else {
+        book.list.add(obj)
+        return {msg : "booked"}
+    }
+}
+
